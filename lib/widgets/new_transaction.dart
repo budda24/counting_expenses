@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'const/const.dart';
+import '../const/const.dart';
 
 class NewTransaction extends StatelessWidget {
   const NewTransaction({Key? key, required this.getTransactionList})

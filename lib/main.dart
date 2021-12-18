@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/const/const.dart';
+import 'package:flutter_complete_guide/widgets/IconPlusButton.dart';
 import 'package:flutter_complete_guide/widgets/transaction_list.dart';
 import 'models/transaction.dart';
-import 'new_transaction.dart';
+import 'widgets/new_transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -100,25 +101,4 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class IconPlusButton extends StatelessWidget {
-  const IconPlusButton({Key? key, required this.callBack, this.iconSize = 15})
-      : super(key: key);
-  final VoidCallback callBack;
-  final double iconSize;
 
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: iconSize,
-      backgroundColor: kGreColor,
-      child: IconButton(
-        color: kMainColor,
-        iconSize: iconSize,
-        onPressed:callBack,
-        icon: Icon(
-          Icons.add,
-        ),
-      ),
-    );
-  }
-}
