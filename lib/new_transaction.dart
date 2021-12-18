@@ -3,65 +3,93 @@ import 'package:flutter/material.dart';
 import 'const/const.dart';
 import 'models/transaction.dart';
 
-class AddTransaction extends StatelessWidget {
-  const AddTransaction({Key? key}) : super(key: key);
-
+class NewTransaction extends StatelessWidget {
+  const NewTransaction({Key? key, required this.getTransactionList})
+      : super(key: key);
+  final Function getTransactionList;
 
   static final TextEditingController titleControler = TextEditingController();
   static final TextEditingController amountControler = TextEditingController();
 
-  static final List<Transaction> _listTransactions = [
-    Transaction(amount: 159.99, date: DateTime.now(), id: 't1', title: 'shoes'),
-    Transaction(amount: 40.99, date: DateTime.now(), id: 't2', title: 'golf')
-  ];
-  static int id = 0;
+  void submitData() {
+    final transactionTitle = titleControler.text;
+    final transactionAmount =
+        double.parse(amountControler.text).toStringAsFixed(2);
+    if (transactionTitle.isEmpty || double.parse(transactionAmount) <= 0) {
+      return;
+    }
 
-  addTransaction(){
-    id++;
-    double amount =double.parse(amountControler.text) ;
-    String title = titleControler.text;
-    /*listTransactions.add(Transaction(amount: amount, date: date, id: 't$id', title: title));*/
+    /*lift input data to the user_transaction*/
+    getTransactionList(
+      titleControler.text,
+      double.parse(amountControler.text),
+    );
+    titleControler.clear();
+    amountControler.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: amountControler,
-          decoration: InputDecoration(
-            icon: Icon(
-              Icons.account_balance_wallet_outlined,
-              color: kGreColor,
+    return Container(
+      margin: kMainMargin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          TextField(
+            keyboardType: TextInputType.number,
+            controller: amountControler,
+            onSubmitted: (_) => submitData(),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              filled: true,
+              fillColor: kGreColor,
+              icon: Icon(
+                Icons.account_balance_wallet_outlined,
+                color: kGreColor,
+              ),
+              label: Text('Amount spent'),
             ),
-            label: Text('Amount spent'),
           ),
-        ),
-        TextField(
-          controller: titleControler,
-          decoration: InputDecoration(
-            icon: Icon(
-              Icons.all_inclusive_outlined,
-              color: kGreColor,
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            controller: titleControler,
+            onSubmitted: (_) => submitData(),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              filled: true,
+              fillColor: kGreColor,
+              icon: Icon(
+                Icons.all_inclusive_outlined,
+                color: kGreColor,
+              ),
+              label: Text('Title'),
             ),
-            label: Text('Title'),
           ),
-        ),
-        TextButton(
-          onPressed:addTransaction,
-          child: Text(
-            'Add Expenses',
-            style: kTextTitle.copyWith(color: kMainColor),
+          SizedBox(
+            height: 10,
           ),
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
-            elevation: MaterialStateProperty.all(8),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15))),
-            backgroundColor: MaterialStateProperty.all(kGreColor),
+          TextButton(
+            onPressed: () => submitData(),
+            child: Text(
+              'Add Expenses',
+              style: kTextTitle.copyWith(color: kMainColor),
+            ),
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
+              elevation: MaterialStateProperty.all(8),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
+              backgroundColor: MaterialStateProperty.all(kGreColor),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,60 +1,69 @@
 import 'package:flutter/material.dart';
-import '../models/transaction.dart';
+import 'package:flutter_complete_guide/const/const.dart';
+import 'package:flutter_complete_guide/models/transaction.dart';
 import 'package:intl/intl.dart';
-import '../const/const.dart';
 
+class TransactionList extends StatelessWidget {
+  TransactionList({required this.listTransactions});
 
-
-class TransactionList extends StatefulWidget {
-  const TransactionList({Key? key}) : super(key: key);
-
-  @override
-  _TransactionListState createState() => _TransactionListState();
-}
-
-class _TransactionListState extends State<TransactionList> {
-
+  final List<Transaction> listTransactions;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: amountControler,
-          decoration: InputDecoration(
-            icon: Icon(
-              Icons.account_balance_wallet_outlined,
-              color: kGreColor,
+    return Container(
+      /*ListView.builder needs parent with constrain height*/
+      height: 300,
+      child: ListView.builder(
+        itemCount: listTransactions.length,
+        /*ctx = context*/
+        itemBuilder: (ctx, index) {
+          return Card(
+            color: kGreColor,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  margin: kMainMargin,
+                  decoration: BoxDecoration(
+                    color: kGreColor,
+                    border: Border.all(
+                      color: kMainColor,
+                      width: 2,
+                    ),
+                  ),
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    '\$${listTransactions[index].amount}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: kMainColor,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      listTransactions[index].title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kMainColor
+                      ),
+                    ),
+                    Text(
+                      DateFormat.yMMMd().format(listTransactions[index].date),
+                      style: TextStyle(
+                        color: kGreColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            label: Text('Amount spent'),
-          ),
-        ),
-        TextField(
-          controller: titleControler,
-          decoration: InputDecoration(
-            icon: Icon(
-              Icons.all_inclusive_outlined,
-              color: kGreColor,
-            ),
-            label: Text('Title'),
-          ),
-        ),
-        TextButton(
-          onPressed:addTransaction,
-          child: Text(
-            'Add Expenses',
-            style: kTextTitle.copyWith(color: kMainColor),
-          ),
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all(const EdgeInsets.all(10)),
-            elevation: MaterialStateProperty.all(8),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15))),
-            backgroundColor: MaterialStateProperty.all(kGreColor),
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
-
