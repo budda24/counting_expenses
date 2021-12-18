@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'const/const.dart';
-import 'models/transaction.dart';
 
 class NewTransaction extends StatelessWidget {
   const NewTransaction({Key? key, required this.getTransactionList})
@@ -21,8 +19,8 @@ class NewTransaction extends StatelessWidget {
 
     /*lift input data to the user_transaction*/
     getTransactionList(
-      titleControler.text,
-      double.parse(amountControler.text),
+      transactionTitle,
+      transactionAmount,
     );
     titleControler.clear();
     amountControler.clear();

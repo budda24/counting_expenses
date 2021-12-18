@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/const/const.dart';
 import 'package:flutter_complete_guide/widgets/transaction_list.dart';
-
 import 'models/transaction.dart';
-import 'models/user_transaction.dart';
 import 'new_transaction.dart';
 
 void main() => runApp(MyApp());
@@ -24,21 +22,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  void startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        print('function trigered');
+        return NewTransaction(
+          getTransactionList: _addNewTransaction,
+        );
+      },
+    );
+  }
+
   /*List whitch will be passed to the transaction list constructor*/
   static final List<Transaction> _listTransactions = [
-    Transaction(amount: 159.99, date: DateTime.now(), id: 't1', title: 'shoes'),
-    Transaction(amount: 40.99, date: DateTime.now(), id: 't2', title: 'golf')
+    Transaction(amount: '159.99', date: DateTime.now(), id: 't1', title: 'shoes'),
+    Transaction(amount: '40.99', date: DateTime.now(), id: 't2', title: 'golf')
   ];
 
   /*to lift stateUp From new_transaction*/
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, String txAmount) {
     var tmpTx = Transaction(
         amount: txAmount, title: txTitle, date: DateTime.now(), id: 't1');
     setState(() {
       _listTransactions.add(tmpTx);
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               margin: EdgeInsets.only(right: 10),
               child: IconPlusButton(
-                callBack: () {},
+                callBack:()=>startAddNewTransaction(context),
                 iconSize: 20,
               ),
             )
@@ -70,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text('Chart'),
-              NewTransaction(getTransactionList: _addNewTransaction),
               TransactionList(
                 listTransactions: _listTransactions,
               ),
@@ -79,7 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 20),
-          child: IconPlusButton(callBack: (){},iconSize: 30,),
+          child: IconPlusButton(
+            callBack:() => startAddNewTransaction(context),
+            iconSize: 30,
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         backgroundColor: Colors.transparent,
@@ -89,8 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class IconPlusButton extends StatelessWidget {
-  const IconPlusButton({Key? key, required this.callBack, this.iconSize = 15}) :  super(key: key) ;
-  final Function callBack;
+  const IconPlusButton({Key? key, required this.callBack, this.iconSize = 15})
+      : super(key: key);
+  final VoidCallback callBack;
   final double iconSize;
 
   @override
@@ -101,7 +114,7 @@ class IconPlusButton extends StatelessWidget {
       child: IconButton(
         color: kMainColor,
         iconSize: iconSize,
-        onPressed: () {},
+        onPressed:callBack,
         icon: Icon(
           Icons.add,
         ),
