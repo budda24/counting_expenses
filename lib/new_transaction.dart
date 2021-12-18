@@ -49,7 +49,10 @@ class NewTransaction extends StatelessWidget {
                 Icons.account_balance_wallet_outlined,
                 color: kGreColor,
               ),
-              label: Text('Amount spent'),
+              label: Text(
+                'Amount spent',
+                style: TextStyle(color: kMainColor),
+              ),
             ),
           ),
           SizedBox(
@@ -68,7 +71,10 @@ class NewTransaction extends StatelessWidget {
                 Icons.all_inclusive_outlined,
                 color: kGreColor,
               ),
-              label: Text('Title'),
+              label: Text(
+                'Title',
+                style: TextStyle(color: kMainColor),
+              ),
             ),
           ),
           SizedBox(
