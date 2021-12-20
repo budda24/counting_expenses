@@ -19,10 +19,12 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 20,
-          child: Text(
-            '\$${spendedamount.toStringAsFixed(0)}',
-            style: TextStyle(color: kMainColor),
+          /*height: 20,*/
+          child: FittedBox(
+            child: Text(
+              '\$${spendedamount.toStringAsFixed(0)}',
+              style: TextStyle(color: kMainColor),
+            ),
           ),
         ),
         SizedBox(
