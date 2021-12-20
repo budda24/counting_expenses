@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const kMainColor = Colors.lightGreenAccent;
 const kGreColor = Colors.grey;
+const kBlackColor = Colors.black;
 final kMainColorShade = Colors.lightGreenAccent.shade50;
 const kWhiteColor = Colors.white;
 
