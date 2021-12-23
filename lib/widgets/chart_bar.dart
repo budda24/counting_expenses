@@ -8,18 +8,20 @@ class ChartBar extends StatelessWidget {
     required this.lable,
     required this.spendedamount,
     required this.totalSpendedamount,
+    /*required this.dateTime,*/
   }) : super(key: key);
 
   final String lable;
   final double spendedamount;
   final double totalSpendedamount;
+  /*final DateTime dateTime;*/
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          /*height: 20,*/
+
           child: FittedBox(
             child: Text(
               '\$${spendedamount.toStringAsFixed(0)}',
@@ -61,7 +63,7 @@ class ChartBar extends StatelessWidget {
         ),
         Text(
           lable,
-          style: kTextTitle.copyWith(color: kMainColor),
+          style: kTextTitle.copyWith(color: kBlackColor),
         )
       ],
     );

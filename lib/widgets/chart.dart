@@ -31,9 +31,10 @@ class Chart extends StatelessWidget {
         /*from package Intl format DateTime object to dayes*/
         'day': DateFormat.E().format(weekDay),
       };
-    });
+    }).reversed.toList();
   }
 
+  /*creating the list of widgets chart*/
   List<Widget> get listOfCharts {
     List<Widget> tmpList = [];
     if (grupedTransactionValues.isNotEmpty) {

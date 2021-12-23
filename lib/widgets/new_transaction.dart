@@ -1,29 +1,55 @@
 import 'package:flutter/material.dart';
 import '../const/const.dart';
+import 'package:intl/intl.dart';
 
-class NewTransaction extends StatelessWidget {
-  const NewTransaction({Key? key, required this.getTransactionList})
+class NewTransaction extends StatefulWidget {
+  NewTransaction({Key? key, required this.getTransactionList})
       : super(key: key);
   final Function getTransactionList;
 
   static final TextEditingController titleControler = TextEditingController();
   static final TextEditingController amountControler = TextEditingController();
 
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+
+  /*data picker*/
+  DateTime? chosenDate;
+  Future<void> selectDate(BuildContext context) async {
+    /*for the purpous to use it in condition if null on widget tree*/
+    chosenDate = DateTime.now();
+
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 7)),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null && pickedDate != chosenDate) {
+      setState(() {
+        chosenDate = pickedDate;
+      });
+    }
+  }
+
   void submitData() {
-    final transactionTitle = titleControler.text;
-    final transactionAmount =
-        double.parse(amountControler.text);
+    final transactionTitle = NewTransaction.titleControler.text;
+    final transactionAmount = double.parse(NewTransaction.amountControler.text);
     if (transactionTitle.isEmpty || transactionAmount <= 0) {
       return;
     }
 
     /*lift input data to the main*/
-    getTransactionList(
+    widget.getTransactionList(
       transactionTitle,
       transactionAmount,
+      chosenDate,
     );
-    titleControler.clear();
-    amountControler.clear();
+    NewTransaction.titleControler.clear();
+    NewTransaction.amountControler.clear();
   }
 
   @override
@@ -37,7 +63,7 @@ class NewTransaction extends StatelessWidget {
           children: [
             TextField(
               keyboardType: TextInputType.number,
-              controller: amountControler,
+              controller: NewTransaction.amountControler,
               onSubmitted: (_) => submitData(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -59,7 +85,7 @@ class NewTransaction extends StatelessWidget {
               height: 10,
             ),
             TextField(
-              controller: titleControler,
+              controller: NewTransaction.titleControler,
               onSubmitted: (_) => submitData(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -76,6 +102,28 @@ class NewTransaction extends StatelessWidget {
                   style: TextStyle(color: kMainColor),
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                chosenDate == null
+                    ? Flexible(
+                        child: Text(
+                          'Date not chosen',
+                        ),
+                      )
+                    : Flexible(
+                        child: FittedBox(
+                          child: Text(
+                            'Your chosen date ${DateFormat.yMd().format(chosenDate ??= DateTime.now())}',
+                          ),
+                        ),
+                      ),
+                IconButton(
+                    /*alignment: Alignment.centerRight,*/
+                    onPressed: () => selectDate(context),
+                    icon: Icon(Icons.calendar_today)),
+              ],
             ),
             SizedBox(
               height: 10,
