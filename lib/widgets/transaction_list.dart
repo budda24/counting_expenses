@@ -4,10 +4,10 @@ import 'package:flutter_complete_guide/models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  TransactionList({required this.listTransactions,/* required this.lfDeleteTransaction*/});
+  TransactionList({required this.listTransactions, required this.lfDeleteTransaction});
 
   final List<Transaction> listTransactions;
-  /*final Function lfDeleteTransaction;*/
+  final Function lfDeleteTransaction;
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +86,12 @@ class TransactionList extends StatelessWidget {
                             ),
                           ),
                         ]),
-                    /*trailing: IconButton(
+                    trailing: IconButton(
                       onPressed:() => lfDeleteTransaction(listTransactions[index].id),
                         icon: Icon(
                       Icons.auto_delete,
                       color: kGreColor,
-                    )),*/
+                    )),
                   ),
                 );
               },

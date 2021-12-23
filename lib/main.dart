@@ -75,13 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   /*to lift stateUp From new_transaction to delete one*/
-/*  void _deleteTransaction(String id) {
+  void _deleteTransaction(String id) {
     setState(
       () {
         _listTransactions.removeWhere((element) => element.id == id);
       },
     );
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 listOfTransactionl: _currentListTransactions,
               ),
               TransactionList(
-                /*lfDeleteTransaction: _deleteTransaction,*/
+                lfDeleteTransaction: _deleteTransaction,
                 listTransactions: _listTransactions,
               ),
             ],
