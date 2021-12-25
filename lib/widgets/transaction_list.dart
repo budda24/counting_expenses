@@ -79,12 +79,6 @@ class TransactionList extends StatelessWidget {
                               color: kGreColor,
                             ),
                           ),
-                          Text(
-                            '${listTransactions[index].id}',
-                            style: TextStyle(
-                              color: kGreColor,
-                            ),
-                          ),
                         ]),
                     trailing: IconButton(
                       onPressed:() => lfDeleteTransaction(listTransactions[index].id),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const kMainColor = Colors.lightGreenAccent;
-const kGreColor = Colors.grey;
+const kMainColor = Color(0xffD5ECC2);
+const kGreColor = Color(0xff916BBF);
 const kBlackColor = Colors.black;
 final kMainColorShade = Colors.lightGreenAccent.shade50;
 const kWhiteColor = Colors.white;
@@ -16,8 +16,8 @@ const kMainMargin = EdgeInsets.symmetric(vertical: 10, horizontal: 20);
 const kBoxLinearGradient = BoxDecoration(
     gradient: LinearGradient(
         colors: [
-          const Color(0xFF64DD17),
-          const Color(0xFFCCFF90),
+          const Color(0xffFFAAA7),
+          const Color(0xffD5ECC2),
         ],
         begin: const FractionalOffset(0.0, 0.0),
         end: const FractionalOffset(1.0, 0.0),

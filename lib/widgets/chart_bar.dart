@@ -18,15 +18,16 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double width = size .width;
+    double height = size.height;
+
     return Column(
       children: [
         Container(
-
-          child: FittedBox(
-            child: Text(
-              '\$${spendedamount.toStringAsFixed(0)}',
-              style: TextStyle(color: kMainColor),
-            ),
+          child: Text(
+            '\$${spendedamount.toStringAsFixed(0)}',
+            style: TextStyle(color: kMainColor),
           ),
         ),
         SizedBox(
@@ -51,7 +52,7 @@ class ChartBar extends StatelessWidget {
                       ? 0.0
                       : spendedamount / totalSpendedamount,
                   child: Container(
-                    color: Colors.black54,
+                    color: kGreColor.withGreen(1),
                   ),
                 ),
               ),
