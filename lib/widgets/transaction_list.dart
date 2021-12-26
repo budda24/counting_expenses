@@ -12,9 +12,11 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
     return Container(
       /*ListView.builder needs parent with constrain height*/
-      height: size.height * 0.5,
+      height: height * 0.5,
       child: listTransactions.isEmpty
           ? Center(
               child: Column(
@@ -27,10 +29,10 @@ class TransactionList extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: height*0.0307,
                   ),
                   Container(
-                    height: size.height * 0.2,
+                    height: height * 0.2,
                     child: Image.asset('assets/images/waiting.png'),
                   )
                 ],
@@ -42,7 +44,7 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                       EdgeInsets.symmetric(horizontal: height*0.0409, vertical: width*0.0128),
                   /*padding: const EdgeInsets.only(top: 8.0),*/
                   child: ListTile(
                     shape: RoundedRectangleBorder(

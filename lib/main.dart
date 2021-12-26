@@ -30,10 +30,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
+      isScrollControlled: true,
       builder: (_) {
         print('function trigered');
-        return NewTransaction(
-          getTransactionList: _addNewTransaction,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal:18 ),
+          child: NewTransaction(
+            getTransactionList: _addNewTransaction,
+            mediaQuery: MediaQuery.of(ctx),
+          ),
         );
       },
     );
@@ -83,8 +88,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  bool chartOn = true;
+
+
   @override
   Widget build(BuildContext context) {
+    MediaQueryData mediaQuery = MediaQuery.of(context);
+    double width = mediaQuery.size.width;
+    double height = mediaQuery.size.height;
+
     return Container(
       decoration: kBoxLinearGradient,
       child: Scaffold(
@@ -92,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
           flexibleSpace: Container(decoration: kBoxLinearGradient),
           actions: [
             Container(
-              margin: EdgeInsets.only(right: 10),
+              margin: EdgeInsets.only(right: width * 0.0342),
               child: IconPlusButton(
                 callBack: () => startAddNewTransaction(context),
-                iconSize: 20,
+                iconSize: height * 0.0256,
               ),
             )
           ],
@@ -113,22 +125,48 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              /*Chart(listOfTransactionl: _listTransactions),*/
-              Chart(
-                listOfTransactionl: _currentListTransactions,
-              ),
-              TransactionList(
-                lfDeleteTransaction: _deleteTransaction,
-                listTransactions: _listTransactions,
-              ),
+              /*reendering different depending on the orientation*/
+              if (mediaQuery.orientation == Orientation.portrait)
+                Chart(
+                  listOfTransactionl: _currentListTransactions,
+                ),
+              if (mediaQuery.orientation == Orientation.portrait)
+                TransactionList(
+                  lfDeleteTransaction: _deleteTransaction,
+                  listTransactions: _listTransactions,
+                ),
+              if (mediaQuery.orientation == Orientation.landscape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Chart'),
+                    Switch(
+                        value: chartOn,
+                        onChanged: (value) {
+                          setState(() {
+                            chartOn = value;
+                          });
+                          print(chartOn);
+                        })
+                  ],
+                ),
+              if (mediaQuery.orientation == Orientation.landscape)
+                chartOn
+                    ? Chart(
+                        listOfTransactionl: _currentListTransactions,
+                      )
+                    : TransactionList(
+                        lfDeleteTransaction: _deleteTransaction,
+                        listTransactions: _listTransactions,
+                      ),
             ],
           ),
         ),
         floatingActionButton: Container(
-          margin: EdgeInsets.only(bottom: 20),
+          margin: EdgeInsets.only(bottom: height * 0.0256),
           child: IconPlusButton(
             callBack: () => startAddNewTransaction(context),
-            iconSize: 30,
+            iconSize: height * 0.0384,
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
