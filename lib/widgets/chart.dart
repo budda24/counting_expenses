@@ -57,7 +57,7 @@ class Chart extends StatelessWidget {
     }
     return tmpList;
   }
-
+/*to count the total spending from added transaction*/
   double get totalSpending {
     return grupedTransactionValues.fold(0.0, (sum, item) {
       return sum + double.parse(item['amount'].toString());

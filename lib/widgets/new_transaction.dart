@@ -22,7 +22,7 @@ class _NewTransactionState extends State<NewTransaction> {
   Future<void> selectDate(BuildContext context) async {
     /*for the purpous to use it in condition if null on widget tree*/
     chosenDate = DateTime.now();
-
+    /*function to open and use datetime sheet*/
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -39,11 +39,13 @@ class _NewTransactionState extends State<NewTransaction> {
   void submitData() {
     final transactionTitle = NewTransaction.titleControler.text;
     final transactionAmount = double.parse(NewTransaction.amountControler.text);
+    /*not allowing to submit without required teext fields*/
     if (transactionTitle.isEmpty || transactionAmount <= 0) {
       return;
     }
 
     /*lift input data to the main*/
+    /*widget.getTransactionList widget represents stateful class*/
     widget.getTransactionList(
       transactionTitle,
       transactionAmount,

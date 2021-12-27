@@ -50,6 +50,7 @@ class ChartBar extends StatelessWidget {
                     child: FractionallySizedBox(
                       heightFactor: totalSpendedamount == 0
                           ? 0.0
+                      /*to get the procentage of total*/
                           : spendedamount / totalSpendedamount,
                       child: Container(
                         color: kGreColor.withGreen(1),

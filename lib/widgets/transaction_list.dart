@@ -9,6 +9,14 @@ class TransactionList extends StatelessWidget {
   final List<Transaction> listTransactions;
   final Function lfDeleteTransaction;
 
+  final randomColors = [
+    Colors.black,
+    Colors.white,
+    Colors.grey,
+    Colors.green,
+    Colors.blue,
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,7 +60,7 @@ class TransactionList extends StatelessWidget {
                         side: BorderSide(width: 3, color: kGreColor)),
                     leading: CircleAvatar(
                       radius: 50,
-                      backgroundColor: kGreColor,
+                      backgroundColor: randomColors[index],
                       child: FittedBox(
                         child: Text(
                           '\$${listTransactions[index].amount.toStringAsFixed(2)}',

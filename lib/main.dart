@@ -30,13 +30,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
+      /*for the buttom sheet to be scrolable*/
       isScrollControlled: true,
       builder: (_) {
         print('function trigered');
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal:18 ),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: NewTransaction(
             getTransactionList: _addNewTransaction,
+            /*passing the mediaquerydata object down to newtransaction*/
             mediaQuery: MediaQuery.of(ctx),
           ),
         );
@@ -56,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print('_listTransactions called');
       /*add only this which hapanned to 7 dayes ago */
       return element.date.isAfter(
+        /*substrct seven dayes from now*/
         DateTime.now().subtract(
           Duration(days: 7),
         ),
@@ -63,19 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  /*to lift stateUp From new_transaction to add one*/
-  int indexId = 1;
-
+  /*  sheet and lift stateUp from new_transaction to add one*/
+  int _indexId = 1;
   void _addNewTransaction(String txTitle, double txAmount, DateTime date) {
     var tmpTx = Transaction(
         amount: txAmount,
         title: txTitle,
         date: date,
-        id: 'transaction: $indexId');
-    indexId++;
+        id: 'transaction: $_indexId');
+    _indexId++;
     setState(() {
       _listTransactions.add(tmpTx);
     });
+    /*closing button sheet after transaction added*/
     Navigator.of(context).pop();
   }
 
@@ -88,14 +91,58 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  bool chartOn = true;
+  /*methets for condition the display between modes*/
+  List<Widget> _buildLandscapeContent() {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Chart'),
+          Switch(
+              value: chartOn,
+              onChanged: (value) {
+                setState(() {
+                  chartOn = value;
+                });
+                print(chartOn);
+              })
+        ],
+      ),
+      chartOn
+          ? Chart(
+        listOfTransactionl: _currentListTransactions,
+      )
+          : TransactionList(
+        lfDeleteTransaction: _deleteTransaction,
+        listTransactions: _listTransactions,
+      ),
+    ];
+  }
 
+  List<Widget> _buildPortraitContent() {
+    return [
+      Chart(
+        listOfTransactionl: _currentListTransactions,
+      ),
+      TransactionList(
+        lfDeleteTransaction: _deleteTransaction,
+        listTransactions: _listTransactions,
+      ),
+    ];
+  }
+
+
+  bool chartOn = true;
 
   @override
   Widget build(BuildContext context) {
+    /*when the media query is being called all depending widgets get rebuild */
+    /*Todo small sizes should not depend on media query change that*/
     MediaQueryData mediaQuery = MediaQuery.of(context);
     double width = mediaQuery.size.width;
     double height = mediaQuery.size.height;
+    /*for rendering difrent dependent on orientation*/
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     return Container(
       decoration: kBoxLinearGradient,
@@ -126,45 +173,22 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               /*reendering different depending on the orientation*/
-              if (mediaQuery.orientation == Orientation.portrait)
-                Chart(
-                  listOfTransactionl: _currentListTransactions,
-                ),
-              if (mediaQuery.orientation == Orientation.portrait)
-                TransactionList(
-                  lfDeleteTransaction: _deleteTransaction,
-                  listTransactions: _listTransactions,
-                ),
-              if (mediaQuery.orientation == Orientation.landscape)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Chart'),
-                    Switch(
-                        value: chartOn,
-                        onChanged: (value) {
-                          setState(() {
-                            chartOn = value;
-                          });
-                          print(chartOn);
-                        })
-                  ],
-                ),
-              if (mediaQuery.orientation == Orientation.landscape)
-                chartOn
-                    ? Chart(
-                        listOfTransactionl: _currentListTransactions,
-                      )
-                    : TransactionList(
-                        lfDeleteTransaction: _deleteTransaction,
-                        listTransactions: _listTransactions,
-                      ),
+              if (!isLandscape)
+                /*Spread Operator children need widget but _buildPortraitContent return List of widgets*/
+                ..._buildPortraitContent(),
+              if (isLandscape)
+                ..._buildLandscapeContent(),
+
+
             ],
           ),
         ),
+
+        /*floating action button to open modalsheet*/
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: height * 0.0256),
           child: IconPlusButton(
+            /*caling the opening of bottom sheet*/
             callBack: () => startAddNewTransaction(context),
             iconSize: height * 0.0384,
           ),
